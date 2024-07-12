@@ -39,14 +39,14 @@ def on_message(client, userdata, msg):
                        column("value"),
                        column("topic"),
                        column("time"),
+                       column("timestamp"),
                       )
     
     with engine.connect() as conn:
-            stmt = insert(db_table).values({"value":str(payload),"topic":str(msg.topic), "time":str(now)})
+            stmt = insert(db_table).values({"value":str(payload),"topic":str(msg.topic), "time":str(now), "timestamp":str(now.timestamp()*1000)})
             result = conn.execute(stmt)
             
 
-           
 client = mqtt.Client()
 client.username_pw_set(mqtt_user, mqtt_password)
 client.on_connect = on_connect
